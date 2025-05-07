@@ -25,3 +25,4 @@ public class VehicleDto {
     private double width;
     private double weight;
 }
+

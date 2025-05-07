@@ -15,13 +15,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Not;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,16 +37,14 @@ public class VehicleServiceTest {
         List<Vehicle> listVehicle = new ArrayList<>();
         listVehicle.add(CustomFactory.getVehicle(1L));
         listVehicle.add(CustomFactory.getVehicle(2L));
-        List<VehicleDto> esperado = new ArrayList<>();
-        esperado.add(CustomFactory.getVehicleDto(1L));
-        esperado.add(CustomFactory.getVehicleDto(2L));
+        List<VehicleDto> esperado = listVehicle.stream().map(x -> CustomFactory.EntitytoDto(x)).toList();
         Mockito.when(vehicleRepository.findAll()).thenReturn(listVehicle);
         //ACT
         List<VehicleDto> resultado = vehicleService.searchAllVehicles();
         //ASSERT
         Assertions.assertEquals(esperado, resultado);
         Assertions.assertEquals(esperado.get(0).getId(), resultado.get(0).getId());
-        Mockito.verify(vehicleRepository).findAll();
+        Mockito.verify(vehicleRepository,Mockito.times(1)).findAll();
     }
 
     //0

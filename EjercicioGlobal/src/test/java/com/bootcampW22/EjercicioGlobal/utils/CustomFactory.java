@@ -4,67 +4,136 @@ import com.bootcampW22.EjercicioGlobal.dto.VehicleDto;
 import com.bootcampW22.EjercicioGlobal.entity.Vehicle;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class CustomFactory {
     private CustomFactory() {}
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    public static Vehicle getVehicle(Long id){
+    private static final Long ID = 1L;
+    private static final String BRAND = "Chevrolet";
+    private static final String MODEL = "Prima";
+    private static final String REGISTRATION = "ABC 123";
+    private static final String COLOR = "Red";
+    private static final int YEAR = 2020;
+    private static final String MAX_SPEED = "100";
+    private static final int PASSAGERS = 4;
+    private static final String FUEL_TYPE = "Nafta";
+    private static final String TRANSMISSION = "Automatic";
+    private static final double HEIGHT = 200.0;
+    private static final double WIDTH = 50.0;
+    private static final double WEIGHT = 150.0;
+
+    public static Vehicle vehicleBase() {
         return new Vehicle(
-                id, "test", "test", "test", "test", 1, "1", 1, "test", "test", 1.1, 1.1, 1.1
+            ID, BRAND, MODEL,REGISTRATION,COLOR,YEAR,MAX_SPEED,PASSAGERS,FUEL_TYPE,TRANSMISSION,HEIGHT,WIDTH,WEIGHT);
+    }
+    public static VehicleDto EntitytoDto(Vehicle vehicle){
+        return objectMapper.convertValue(vehicle,VehicleDto.class);
+    }
+
+    public static Vehicle vehicleWithColorAndYear(Long id,String color,Integer year){
+        Vehicle vehicleBase =  vehicleBase();
+        return new Vehicle(
+                id,
+                vehicleBase.getBrand(),
+                vehicleBase.getModel(),
+                vehicleBase.getRegistration(),
+                color,
+                year,
+                vehicleBase.getMax_speed(),
+                vehicleBase.getPassengers(),
+                vehicleBase.getFuel_type(),
+                vehicleBase.getTransmission(),
+                vehicleBase.getHeight(),
+                vehicleBase.getWidth(),
+                vehicleBase.getWeight()
         );
     }
-    public static VehicleDto getVehicleDto(Long id){
-        return objectMapper.convertValue(getVehicle(id),VehicleDto.class);
+
+    public static List<Vehicle> listColorAndYear(String color, Integer year){
+        List<Vehicle> vehicleListColorAndYear = new ArrayList<>();
+        vehicleListColorAndYear.add(vehicleWithColorAndYear(1L,color,year));
+        vehicleListColorAndYear.add(vehicleWithColorAndYear(2L,color,year));
+        return vehicleListColorAndYear;
     }
 
-    public static List<Vehicle> getListVehicleEqualYearAndColor(Long id,String color, Integer year){
-        List<Vehicle> lista = List.of(
-                new Vehicle(id, "test", "test", "test", color, year, "1", 1, "test", "test", 1.1, 1.1, 1.1),
-                new Vehicle(id+1L, "test", "test", "test", color, year, "1", 1, "test", "test", 1.1, 1.1, 1.1)
+    public static Vehicle vehicleWithBrandAndYear(Long id,String brand, Integer year){
+        Vehicle vehicleBase =  vehicleBase();
+        return new Vehicle(
+                id,
+                brand,
+                vehicleBase.getModel(),
+                vehicleBase.getRegistration(),
+                vehicleBase.getColor(),
+                year,
+                vehicleBase.getMax_speed(),
+                vehicleBase.getPassengers(),
+                vehicleBase.getFuel_type(),
+                vehicleBase.getTransmission(),
+                vehicleBase.getHeight(),
+                vehicleBase.getWidth(),
+                vehicleBase.getWeight()
         );
-        return lista;
     }
 
-    public static List<VehicleDto> getVehicleDtoEqualYearAndColor(Long id,String color, Integer year){
-        return getListVehicleEqualYearAndColor(id,color,year).stream().map(x -> objectMapper.convertValue(x,VehicleDto.class)).toList();
+    public static List<Vehicle> listWithBrandAndYear(String brand,Integer year){
+        List<Vehicle> listVehicle = new ArrayList<>();
+        listVehicle.add(vehicleWithBrandAndYear(1L,brand,year));
+        listVehicle.add(vehicleWithBrandAndYear(2L,brand,year));
+        return listVehicle;
     }
 
-    public static List<Vehicle> getListVehicleEqualBrandAndRangeYear(Long id,String brand){
-        List<Vehicle> lista = List.of(
-                new Vehicle(id, brand, "test", "test", "red", 2020, "1", 1, "test", "test", 1.1, 1.1, 1.1),
-                new Vehicle(id+1L, brand, "test", "test", "green", 2020, "1", 1, "test", "test", 1.1, 1.1, 1.1)
+
+    public static Vehicle vehicleWithBrand(Long id,String brand){
+        Vehicle vehicleBase =  vehicleBase();
+        return new Vehicle(
+                id,
+                brand,
+                vehicleBase.getModel(),
+                vehicleBase.getRegistration(),
+                vehicleBase.getColor(),
+                vehicleBase.getYear(),
+                vehicleBase.getMax_speed(),
+                vehicleBase.getPassengers(),
+                vehicleBase.getFuel_type(),
+                vehicleBase.getTransmission(),
+                vehicleBase.getHeight(),
+                vehicleBase.getWidth(),
+                vehicleBase.getWeight()
         );
-        return lista;
     }
 
-    public static List<VehicleDto> getListVehicleDtoEqualBrandAndRangeYear(Long id,String brand){
-        return getListVehicleEqualBrandAndRangeYear(id,brand).stream().map(x -> objectMapper.convertValue(x,VehicleDto.class)).toList();
+    public static List<Vehicle> listWithBrand(String brand){
+        List<Vehicle> vehicleList = new ArrayList<>();
+        vehicleList.add(vehicleWithBrand(1L,brand));
+        vehicleList.add(vehicleWithBrand(2L,brand));
+        return vehicleList;
     }
 
-    public static List<Vehicle> getListVehicleEqualBrand(Long id,String brand){
-        List<Vehicle> lista = List.of(
-                new Vehicle(id, brand, "test", "test", "red", 2020, "1", 1, "test", "test", 1.1, 1.1, 1.1),
-                new Vehicle(id+1L, brand, "test", "test", "green", 2020, "1", 1, "test", "test", 1.1, 1.1, 1.1)
+    public static Vehicle vehicleWithWeight(Long id,Double weight){
+        Vehicle vehicleBase =  vehicleBase();
+        return new Vehicle(
+                id,
+                vehicleBase.getBrand(),
+                vehicleBase.getModel(),
+                vehicleBase.getRegistration(),
+                vehicleBase.getColor(),
+                vehicleBase.getYear(),
+                vehicleBase.getMax_speed(),
+                vehicleBase.getPassengers(),
+                vehicleBase.getFuel_type(),
+                vehicleBase.getTransmission(),
+                vehicleBase.getHeight(),
+                vehicleBase.getWidth(),
+                weight
         );
-        return lista;
     }
 
-    public static List<VehicleDto> getListVehicleDtoEqualBrand(Long id,String brand){
-        return getListVehicleEqualBrand(id,brand).stream().map(x -> objectMapper.convertValue(x,VehicleDto.class)).toList();
+    public static List<Vehicle> listWithWeight(Double weight){
+        List<Vehicle> vehicleList = new ArrayList<>();
+        vehicleList.add(vehicleWithWeight(1L,weight));
+        vehicleList.add(vehicleWithWeight(2L,weight));
+        return vehicleList;
     }
-
-    public static List<Vehicle> getListVehicleEqualWeight(Long id,Double weight){
-        List<Vehicle> lista = List.of(
-                new Vehicle(id, "Tesla", "test", "test", "red", 2020, "1", 1, "test", "test", 1.1, 1.1, weight),
-                new Vehicle(id+1L, "Tesla", "test", "test", "green", 2020, "1", 1, "test", "test", 1.1, 1.1, weight)
-        );
-        return lista;
-    }
-
-    public static List<VehicleDto> getListVehicleDtoEqualWeight(Long id,Double weight){
-        return getListVehicleEqualWeight(id,weight).stream().map(x -> objectMapper.convertValue(x,VehicleDto.class)).toList();
-    }
-
-
 }
