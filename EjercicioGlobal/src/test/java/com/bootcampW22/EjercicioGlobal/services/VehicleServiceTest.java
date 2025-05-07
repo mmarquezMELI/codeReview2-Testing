@@ -34,10 +34,8 @@ public class VehicleServiceTest {
     @DisplayName("Test de retorno de todos los vehiculos")
     void searchAllVehiclesTest() {
         //ARRANGE
-        List<Vehicle> listVehicle = new ArrayList<>();
-        listVehicle.add(CustomFactory.getVehicle(1L));
-        listVehicle.add(CustomFactory.getVehicle(2L));
-        List<VehicleDto> esperado = listVehicle.stream().map(x -> CustomFactory.EntitytoDto(x)).toList();
+        List<Vehicle> listVehicle = CustomFactory.vehicleList();
+        List<VehicleDto> esperado = listVehicle.stream().map(x -> CustomFactory.entitytoDto(x)).toList();
         Mockito.when(vehicleRepository.findAll()).thenReturn(listVehicle);
         //ACT
         List<VehicleDto> resultado = vehicleService.searchAllVehicles();
@@ -60,13 +58,9 @@ public class VehicleServiceTest {
     @DisplayName("Buscar por color y año")
     void seacrhByYearAndColorTest() {
         //ARRANGE
-        List<Vehicle> listaFiltrada = new ArrayList<>();
-        listaFiltrada.add(CustomFactory.getVehicle(1L));
-        listaFiltrada.add(CustomFactory.getVehicle(2L));
+        List<Vehicle> listaFiltrada = CustomFactory.listColorAndYear("red",2001);
         Mockito.when(vehicleRepository.findVehiclesByYearAndColor("red", 2001)).thenReturn(listaFiltrada);
-        List<VehicleDto> esperado = new ArrayList<>();
-        esperado.add(CustomFactory.getVehicleDto(1L));
-        esperado.add(CustomFactory.getVehicleDto(2L));
+        List<VehicleDto> esperado = listaFiltrada.stream().map(x -> CustomFactory.entitytoDto(x)).toList();
         //ACT
         List<VehicleDto> resultado = vehicleService.searchVehiclesByYearAndColor("red", 2001);
         //ASSERT
@@ -90,9 +84,9 @@ public class VehicleServiceTest {
     @DisplayName("Test search vehicles brand and range of year")
     void searchVehiclesByBrandAndRangeOfYearTest() {
         //ARRANGE
-        List<Vehicle> listVehicle = CustomFactory.getListVehicleEqualBrandAndRangeYear(1L, "Fiat");
+        List<Vehicle> listVehicle = CustomFactory.listWithBrandAndYear("Fiat", 2020);
         Mockito.when(vehicleRepository.findVehiclesByBrandAndRangeOfYear("Fiat", 2020, 2020)).thenReturn(listVehicle);
-        List<VehicleDto> esperado = CustomFactory.getListVehicleDtoEqualBrandAndRangeYear(1L, "Fiat");
+        List<VehicleDto> esperado = listVehicle.stream().map(x -> CustomFactory.entitytoDto(x)).toList();
         //ACT
         List<VehicleDto> resultado = vehicleService.searchVehiclesByBrandAndRangeOfYear("Fiat", 2020, 2020);
         //ASSERT
@@ -116,7 +110,7 @@ public class VehicleServiceTest {
     @DisplayName("Calculo de la velocidad promedio por marca")
     void AvgSpeedByBrandTest() {
         //ARRANGE
-        List<Vehicle> vehicleList = CustomFactory.getListVehicleEqualBrand(1L, "Fiat");
+        List<Vehicle> vehicleList = CustomFactory.listWithBrand("Fiat");
         double esperado =
                 vehicleList.stream()
                         .mapToDouble(x -> Double.parseDouble(x.getMax_speed()))
@@ -145,7 +139,7 @@ public class VehicleServiceTest {
     @DisplayName("Calculo de capacidad de pasajeros por marca")
     void calculateAvgCapacityBrand() {
         //ARRANGE
-        List<Vehicle> listVehicle = CustomFactory.getListVehicleEqualBrand(1L, "Fiat");
+        List<Vehicle> listVehicle = CustomFactory.listWithBrand("Fiat");
         Mockito.when(vehicleRepository.findVehiclesByBrand("Fiat")).thenReturn(listVehicle);
         Double avgPassager = listVehicle.stream()
                 .mapToInt(x -> x.getPassengers())
@@ -173,9 +167,9 @@ public class VehicleServiceTest {
     @DisplayName("Calculo de vehiculos por rango de peso")
     void searchVehiclesByRangeOfWeightTest() {
         //ARRANGE
-        List<Vehicle> listVehicle = CustomFactory.getListVehicleEqualWeight(1L, 200.0);
+        List<Vehicle> listVehicle = CustomFactory.listWithWeight(200.0);
         Mockito.when(vehicleRepository.findVehiclesByRangeOfWeight(200.0, 200.0)).thenReturn(listVehicle);
-        List<VehicleDto> esperado = CustomFactory.getListVehicleDtoEqualWeight(1L, 200.0);
+        List<VehicleDto> esperado = listVehicle.stream().map(x -> CustomFactory.entitytoDto(x)).toList();
         //ACT
         List<VehicleDto> resultado = vehicleService.searchVehiclesByRangeOfWeight(200.0, 200.0);
         //ASSERT

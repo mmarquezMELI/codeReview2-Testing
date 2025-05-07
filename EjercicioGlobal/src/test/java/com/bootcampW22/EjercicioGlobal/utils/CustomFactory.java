@@ -28,10 +28,17 @@ public final class CustomFactory {
         return new Vehicle(
             ID, BRAND, MODEL,REGISTRATION,COLOR,YEAR,MAX_SPEED,PASSAGERS,FUEL_TYPE,TRANSMISSION,HEIGHT,WIDTH,WEIGHT);
     }
-    public static VehicleDto EntitytoDto(Vehicle vehicle){
+    public static VehicleDto entitytoDto(Vehicle vehicle){
         return objectMapper.convertValue(vehicle,VehicleDto.class);
     }
 
+    public static List<Vehicle> vehicleList(){
+        List<Vehicle> vehicleList = new ArrayList<>();
+       vehicleList.add(vehicleBase());
+       vehicleList.add(vehicleBase());
+       vehicleList.get(1).setId(2L);
+       return vehicleList;
+    }
     public static Vehicle vehicleWithColorAndYear(Long id,String color,Integer year){
         Vehicle vehicleBase =  vehicleBase();
         return new Vehicle(
@@ -50,14 +57,12 @@ public final class CustomFactory {
                 vehicleBase.getWeight()
         );
     }
-
     public static List<Vehicle> listColorAndYear(String color, Integer year){
         List<Vehicle> vehicleListColorAndYear = new ArrayList<>();
         vehicleListColorAndYear.add(vehicleWithColorAndYear(1L,color,year));
         vehicleListColorAndYear.add(vehicleWithColorAndYear(2L,color,year));
         return vehicleListColorAndYear;
     }
-
     public static Vehicle vehicleWithBrandAndYear(Long id,String brand, Integer year){
         Vehicle vehicleBase =  vehicleBase();
         return new Vehicle(
@@ -83,7 +88,6 @@ public final class CustomFactory {
         listVehicle.add(vehicleWithBrandAndYear(2L,brand,year));
         return listVehicle;
     }
-
 
     public static Vehicle vehicleWithBrand(Long id,String brand){
         Vehicle vehicleBase =  vehicleBase();
