@@ -35,7 +35,7 @@ public class VehicleServiceTest {
     void searchAllVehiclesTest() {
         //ARRANGE
         List<Vehicle> listVehicle = CustomFactory.vehicleList();
-        List<VehicleDto> esperado = listVehicle.stream().map(x -> CustomFactory.entitytoDto(x)).toList();
+        List<VehicleDto> esperado = CustomFactory.listEntitytoListDto(listVehicle);
         Mockito.when(vehicleRepository.findAll()).thenReturn(listVehicle);
         //ACT
         List<VehicleDto> resultado = vehicleService.searchAllVehicles();
@@ -60,7 +60,7 @@ public class VehicleServiceTest {
         //ARRANGE
         List<Vehicle> listaFiltrada = CustomFactory.listColorAndYear("red",2001);
         Mockito.when(vehicleRepository.findVehiclesByYearAndColor("red", 2001)).thenReturn(listaFiltrada);
-        List<VehicleDto> esperado = listaFiltrada.stream().map(x -> CustomFactory.entitytoDto(x)).toList();
+        List<VehicleDto> esperado = CustomFactory.listEntitytoListDto(listaFiltrada);
         //ACT
         List<VehicleDto> resultado = vehicleService.searchVehiclesByYearAndColor("red", 2001);
         //ASSERT
@@ -86,7 +86,7 @@ public class VehicleServiceTest {
         //ARRANGE
         List<Vehicle> listVehicle = CustomFactory.listWithBrandAndYear("Fiat", 2020);
         Mockito.when(vehicleRepository.findVehiclesByBrandAndRangeOfYear("Fiat", 2020, 2020)).thenReturn(listVehicle);
-        List<VehicleDto> esperado = listVehicle.stream().map(x -> CustomFactory.entitytoDto(x)).toList();
+        List<VehicleDto> esperado = CustomFactory.listEntitytoListDto(listVehicle);
         //ACT
         List<VehicleDto> resultado = vehicleService.searchVehiclesByBrandAndRangeOfYear("Fiat", 2020, 2020);
         //ASSERT
@@ -169,7 +169,7 @@ public class VehicleServiceTest {
         //ARRANGE
         List<Vehicle> listVehicle = CustomFactory.listWithWeight(200.0);
         Mockito.when(vehicleRepository.findVehiclesByRangeOfWeight(200.0, 200.0)).thenReturn(listVehicle);
-        List<VehicleDto> esperado = listVehicle.stream().map(x -> CustomFactory.entitytoDto(x)).toList();
+        List<VehicleDto> esperado = CustomFactory.listEntitytoListDto(listVehicle);
         //ACT
         List<VehicleDto> resultado = vehicleService.searchVehiclesByRangeOfWeight(200.0, 200.0);
         //ASSERT

@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class CustomFactory {
-    private CustomFactory() {}
+    private CustomFactory() {
+    }
+
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Long ID = 1L;
     private static final String BRAND = "Chevrolet";
@@ -26,21 +28,25 @@ public final class CustomFactory {
 
     public static Vehicle vehicleBase() {
         return new Vehicle(
-            ID, BRAND, MODEL,REGISTRATION,COLOR,YEAR,MAX_SPEED,PASSAGERS,FUEL_TYPE,TRANSMISSION,HEIGHT,WIDTH,WEIGHT);
-    }
-    public static VehicleDto entitytoDto(Vehicle vehicle){
-        return objectMapper.convertValue(vehicle,VehicleDto.class);
+                ID, BRAND, MODEL, REGISTRATION, COLOR, YEAR, MAX_SPEED, PASSAGERS, FUEL_TYPE, TRANSMISSION, HEIGHT, WIDTH, WEIGHT);
     }
 
-    public static List<Vehicle> vehicleList(){
-        List<Vehicle> vehicleList = new ArrayList<>();
-       vehicleList.add(vehicleBase());
-       vehicleList.add(vehicleBase());
-       vehicleList.get(1).setId(2L);
-       return vehicleList;
+    public static List<VehicleDto> listEntitytoListDto(List<Vehicle> vehicleList) {
+        return vehicleList.stream()
+                .map(x -> objectMapper.convertValue(x, VehicleDto.class))
+                .toList();
     }
-    public static Vehicle vehicleWithColorAndYear(Long id,String color,Integer year){
-        Vehicle vehicleBase =  vehicleBase();
+
+    public static List<Vehicle> vehicleList() {
+        List<Vehicle> vehicleList = new ArrayList<>();
+        vehicleList.add(vehicleBase());
+        vehicleList.add(vehicleBase());
+        vehicleList.get(1).setId(2L);
+        return vehicleList;
+    }
+
+    public static Vehicle vehicleWithColorAndYear(Long id, String color, Integer year) {
+        Vehicle vehicleBase = vehicleBase();
         return new Vehicle(
                 id,
                 vehicleBase.getBrand(),
@@ -57,14 +63,16 @@ public final class CustomFactory {
                 vehicleBase.getWeight()
         );
     }
-    public static List<Vehicle> listColorAndYear(String color, Integer year){
+
+    public static List<Vehicle> listColorAndYear(String color, Integer year) {
         List<Vehicle> vehicleListColorAndYear = new ArrayList<>();
-        vehicleListColorAndYear.add(vehicleWithColorAndYear(1L,color,year));
-        vehicleListColorAndYear.add(vehicleWithColorAndYear(2L,color,year));
+        vehicleListColorAndYear.add(vehicleWithColorAndYear(1L, color, year));
+        vehicleListColorAndYear.add(vehicleWithColorAndYear(2L, color, year));
         return vehicleListColorAndYear;
     }
-    public static Vehicle vehicleWithBrandAndYear(Long id,String brand, Integer year){
-        Vehicle vehicleBase =  vehicleBase();
+
+    public static Vehicle vehicleWithBrandAndYear(Long id, String brand, Integer year) {
+        Vehicle vehicleBase = vehicleBase();
         return new Vehicle(
                 id,
                 brand,
@@ -82,15 +90,15 @@ public final class CustomFactory {
         );
     }
 
-    public static List<Vehicle> listWithBrandAndYear(String brand,Integer year){
+    public static List<Vehicle> listWithBrandAndYear(String brand, Integer year) {
         List<Vehicle> listVehicle = new ArrayList<>();
-        listVehicle.add(vehicleWithBrandAndYear(1L,brand,year));
-        listVehicle.add(vehicleWithBrandAndYear(2L,brand,year));
+        listVehicle.add(vehicleWithBrandAndYear(1L, brand, year));
+        listVehicle.add(vehicleWithBrandAndYear(2L, brand, year));
         return listVehicle;
     }
 
-    public static Vehicle vehicleWithBrand(Long id,String brand){
-        Vehicle vehicleBase =  vehicleBase();
+    public static Vehicle vehicleWithBrand(Long id, String brand) {
+        Vehicle vehicleBase = vehicleBase();
         return new Vehicle(
                 id,
                 brand,
@@ -108,15 +116,15 @@ public final class CustomFactory {
         );
     }
 
-    public static List<Vehicle> listWithBrand(String brand){
+    public static List<Vehicle> listWithBrand(String brand) {
         List<Vehicle> vehicleList = new ArrayList<>();
-        vehicleList.add(vehicleWithBrand(1L,brand));
-        vehicleList.add(vehicleWithBrand(2L,brand));
+        vehicleList.add(vehicleWithBrand(1L, brand));
+        vehicleList.add(vehicleWithBrand(2L, brand));
         return vehicleList;
     }
 
-    public static Vehicle vehicleWithWeight(Long id,Double weight){
-        Vehicle vehicleBase =  vehicleBase();
+    public static Vehicle vehicleWithWeight(Long id, Double weight) {
+        Vehicle vehicleBase = vehicleBase();
         return new Vehicle(
                 id,
                 vehicleBase.getBrand(),
@@ -134,10 +142,10 @@ public final class CustomFactory {
         );
     }
 
-    public static List<Vehicle> listWithWeight(Double weight){
+    public static List<Vehicle> listWithWeight(Double weight) {
         List<Vehicle> vehicleList = new ArrayList<>();
-        vehicleList.add(vehicleWithWeight(1L,weight));
-        vehicleList.add(vehicleWithWeight(2L,weight));
+        vehicleList.add(vehicleWithWeight(1L, weight));
+        vehicleList.add(vehicleWithWeight(2L, weight));
         return vehicleList;
     }
 }
